@@ -5,7 +5,7 @@ import os
 class PrintPipeline(object):
     def process_item(self, item, spider):
         if spider.name == 'tradingpost_car':
-            f = open('/home/nikita/workstuff/ads/%s.json' % item['uid'], 'w+')
+            f = open('/home/nikita/workstuff/ads/car/%s.json' % item['uid'], 'w+')
         elif spider.name == 'tradingpost_dog':
             f = open('/home/nikita/workstuff/ads/dog/%s.json' % item['uid'], 'w+')
         elif spider.name == 'tradingpost_cat':

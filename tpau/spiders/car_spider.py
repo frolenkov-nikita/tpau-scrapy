@@ -8,25 +8,22 @@ from scrapy.http import  Request
 
 from tpau.items import CarAdItem
 
-class CarSpider(BaseSpider):
+
+class CatAdSpider(CrawlSpider):
     name = 'tradingpost_car'
     start_urls = [
-        'http://www.tradingpost.com.au/is-bin/INTERSHOP.enfinity/WFS/Telstra-TradingPost-Site/en_AU/-/AUD/ViewListingSelectCategory-Continue?CatalogCategoryPath=Automotive/Used-Cars',
-        'http://www.tradingpost.com.au/Automotive/Used-Cars/Browse']
-    for i in range(0, 3500):
-        start_urls.append('http://www.tradingpost.com.au/Automotive/Used-Cars/Browse?PageNumber=%s' % i)
+        'http://www.tradingpost.com.au/Automotive/Used-Cars/Browse'
+        ]
 
-#    rules = (
-#       Rule(SgmlLinkExtractor(allow=('AdNumber', ), unique=True),
-#            callback='parse_item', follow=True),
-#    )
+    rules = (
+        Rule(SgmlLinkExtractor(allow=('PageNumber', ), unique=True),
+             callback='parse_category', follow=True),
+        )
 
-    def parse(self, response):
-       # print response.body
+    def parse_category(self, response):
         hxs = HtmlXPathSelector(response)
         for url in hxs.select("//div[@class='results ']//a[contains(@class,'megaclick t_productLink')]/@href"):
             yield Request(url.extract(), callback=self.parse_ad)
-
     def parse_ad(self, response):
         hxs = HtmlXPathSelector(response)
         ad = CarAdItem()
