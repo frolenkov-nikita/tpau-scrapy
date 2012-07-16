@@ -50,3 +50,27 @@ class DogAdItem(AdItem):
 
 class CatAdItem(AdItem):
     pass
+
+
+class CaravanAdItem(AdItem):
+    pass
+
+
+class BoatAdItem(AdItem):
+    pass
+
+
+class TruckAdItem(CarAdItem):
+    pass
+
+
+class FarmItem(AdItem):
+    pass
+
+
+class TrailerItem(AdItem):
+    pass
+
+
+class CommercialItem(AdItem):
+    pass
