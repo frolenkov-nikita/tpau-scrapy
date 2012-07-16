@@ -25,7 +25,7 @@ class CarAdItem(Item):
     category_id = Field()
 
 
-class DogAdItem(Item):
+class AdItem(Item):
     url = Field()
     location = Field()
     title = Field()
@@ -40,8 +40,10 @@ class DogAdItem(Item):
     tp_category_id = Field()
     category_id = Field()
 
-class CatAdItem(DogAdItem):
+
+class DogAdItem(AdItem):
     pass
 
-class AdItem(CatAdItem):
+
+class CatAdItem(AdItem):
     pass

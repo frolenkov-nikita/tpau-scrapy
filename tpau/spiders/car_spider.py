@@ -24,6 +24,7 @@ class CatAdSpider(CrawlSpider):
         hxs = HtmlXPathSelector(response)
         for url in hxs.select("//div[@class='results ']//a[contains(@class,'megaclick t_productLink')]/@href"):
             yield Request(url.extract(), callback=self.parse_ad)
+            
     def parse_ad(self, response):
         hxs = HtmlXPathSelector(response)
         ad = CarAdItem()

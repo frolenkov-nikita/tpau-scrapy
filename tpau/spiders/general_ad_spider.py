@@ -8,7 +8,7 @@ from scrapy.http import  Request
 from tpau.items import AdItem
 
 class GeneralAdSpider(CrawlSpider):
-    name = 'tradingpost_general'
+    name = 'general_ads'
     start_urls = [
         'http://www.tradingpost.com.au/Household/Appliances/Browse',
         'http://www.tradingpost.com.au/DIY-Home-Renovations/Bathroom-Laundry/Browse',
