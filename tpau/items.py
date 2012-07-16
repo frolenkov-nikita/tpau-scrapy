@@ -2,7 +2,6 @@
 from scrapy.item import Item, Field
 
 class CarAdItem(Item):
-
     url = Field()
     location = Field()
     title = Field()
@@ -23,6 +22,10 @@ class CarAdItem(Item):
     large_images = Field()
     tp_category_id = Field()
     category_id = Field()
+
+
+class MotorbikeAdItem(CarAdItem):
+    pass
 
 
 class AdItem(Item):

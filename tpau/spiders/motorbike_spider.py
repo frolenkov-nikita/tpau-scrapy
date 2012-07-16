@@ -5,13 +5,22 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from scrapy.http import  Request
 
-from tpau.items import CarAdItem
+from tpau.items import MotorbikeAdItem
 
 
-class CatAdSpider(CrawlSpider):
-    name = 'tradingpost_car'
+class MotorbikeAdSpider(CrawlSpider):
+    name = 'motorbike'
     start_urls = [
-        'http://www.tradingpost.com.au/Automotive/Used-Cars/Browse'
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/ROAD/Browse?intref=nav034&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/ENDURO/Browse?intref=nav035&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/MOTORCROSS/Browse?intref=nav036&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/TRAIL/Browse?intref=nav037&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/FARM-TRAIL/Browse?intref=nav038&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/SCOOTER/Browse?intref=nav039&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/ATV/Browse?intref=nav040&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/DUAL-PURPOSE/Browse?intref=nav041&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Motorbikes-ATVs/MINI-BIKE/Browse?intref=nav042&OmnSearchType=Browse',
+        'http://www.tradingpost.com.au/Automotive/Go-Karts-Buggies/Browse?intref=nav043&OmnSearchType=Browse',
         ]
 
     rules = (
@@ -26,7 +35,7 @@ class CatAdSpider(CrawlSpider):
 
     def parse_ad(self, response):
         hxs = HtmlXPathSelector(response)
-        ad = CarAdItem()
+        ad = MotorbikeAdItem()
         ad['uid'] = hxs.select("//div[@class='stack']/div[@class='right']/text()")[0].extract().split('.')[-1].strip()
         ad['location'] = hxs.select('//h2[@class="ad-number"]/text()').extract()[0]
         ad['title'] = hxs.select('//h1[@class="ad-title"]/text()').extract()[0].strip()
@@ -45,7 +54,7 @@ class CatAdSpider(CrawlSpider):
 
         f = {
             'standard_features': 'Standard Features',
-             'optional_features': 'Optional Features'
+            'optional_features': 'Optional Features'
         }
         for key, name in f.items():
             table_html = hxs.select("//h4[contains(text(),'%s')]/following-sibling::table" % name)
@@ -60,11 +69,10 @@ class CatAdSpider(CrawlSpider):
                     ad[key] = t
 
         fs = {
-            'specifications': "Specifications",
-            'additional_specifications': "Additional Specifications",
+            'specifications': "Vehicle Details",
+            'additional_specifications': "Additional Details",
             'engine': 'Engine',
-            'steering_wheels': 'Steering & Wheels',
-            'dimensions': 'Dimensions'
+            'steering_wheels': 'Wheels',
         }
         for key, name in fs.items():
             table_html = hxs.select("//h3[contains(text(),'%s')]/following-sibling::div[1]" % name)
@@ -90,4 +98,5 @@ class CatAdSpider(CrawlSpider):
         ad['tp_category_id'] = re.findall(r"ItemCategoryID\s*=\s*'(.*?)'", meta)[0]
         ad['category_id'] = re.findall(r"Taxonomy\/\w+\/\w+\/(\w+)", meta)[0]
         return ad
+
 

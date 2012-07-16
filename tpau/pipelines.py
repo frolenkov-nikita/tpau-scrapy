@@ -1,7 +1,7 @@
 import json
 import os
 
-from scrapy.conf import settings
+from tpau import settings
 
 
 class PrintPipeline(object):
